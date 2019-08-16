@@ -1,5 +1,5 @@
 package codekata.dependencies;
 
 public interface DependencyGraphResolver {
-    DependencyGraph resolve(DependencyGraph unresolvedGraph);
+	DependencyGraph resolve(DependencyGraph unresolvedGraph);
 }

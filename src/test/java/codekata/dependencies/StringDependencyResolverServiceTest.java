@@ -16,24 +16,24 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class StringDependencyResolverServiceTest {
-    @Mock
-    DependencyGraphParser<String> stringDependencyGraphParser;
+	@Mock
+	DependencyGraphParser<String> stringDependencyGraphParser;
 
-    @Mock
-    DependencyGraphResolver dependencyGraphResolver;
+	@Mock
+	DependencyGraphResolver dependencyGraphResolver;
 
-    @Test
-    void parsesStringAndResolvesGraph() {
-        Map<String, Set<String>> dependencyMap = new HashMap<>();
-        dependencyMap.put("A", Collections.singleton("B"));
-        DependencyGraph expectedDependencyGraph = new DependencyGraph(dependencyMap);
+	@Test
+	void parsesStringAndResolvesGraph() {
+		Map<String, Set<String>> dependencyMap = new HashMap<>();
+		dependencyMap.put("A", Collections.singleton("B"));
+		DependencyGraph expectedDependencyGraph = new DependencyGraph(dependencyMap);
 
-        when(stringDependencyGraphParser.parse(any())).thenReturn(expectedDependencyGraph);
+		when(stringDependencyGraphParser.parse(any())).thenReturn(expectedDependencyGraph);
 
-        StringDependencyResolverService service = new StringDependencyResolverService(stringDependencyGraphParser, dependencyGraphResolver);
-        service.parseAndResolveGraph("A B");
+		StringDependencyResolverService service = new StringDependencyResolverService(stringDependencyGraphParser, dependencyGraphResolver);
+		service.parseAndResolveGraph("A B");
 
-        verify(stringDependencyGraphParser).parse("A B");
-        verify(dependencyGraphResolver).resolve(expectedDependencyGraph);
-    }
+		verify(stringDependencyGraphParser).parse("A B");
+		verify(dependencyGraphResolver).resolve(expectedDependencyGraph);
+	}
 }
