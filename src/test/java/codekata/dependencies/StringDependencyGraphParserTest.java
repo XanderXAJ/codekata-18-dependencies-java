@@ -9,7 +9,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class StringDependencyGraphParserTest {
-	StringDependencyGraphParser parser = new StringDependencyGraphParser();
+	private StringDependencyGraphParser parser = new StringDependencyGraphParser();
 
 	@Test
 	void parsesSingleLineGraphWithSingleDependency() {
@@ -18,6 +18,17 @@ class StringDependencyGraphParserTest {
 		DependencyGraph expected = new DependencyGraph(expectedDependencyMap);
 
 		DependencyGraph actual = parser.parse("A B");
+
+		assertThat(actual).isEqualTo(expected);
+	}
+
+	@Test
+	void parsesSingleLineGraphWithMultipleDependencies() {
+		Map<String, Set<String>> expectedDependencyMap = new HashMap<>();
+		expectedDependencyMap.put("A", Set.of("B", "C"));
+		DependencyGraph expected = new DependencyGraph(expectedDependencyMap);
+
+		DependencyGraph actual = parser.parse("A B C");
 
 		assertThat(actual).isEqualTo(expected);
 	}
