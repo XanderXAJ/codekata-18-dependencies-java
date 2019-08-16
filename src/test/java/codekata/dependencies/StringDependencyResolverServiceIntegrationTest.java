@@ -3,20 +3,19 @@
  */
 package codekata.dependencies;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class StringDependencyResolverServiceIntegrationTest {
+	private DependencyGraphParser<String> stringDependencyGraphParser = new StringDependencyGraphParser();
 	// TODO: Replace with concrete implementation
-	@Mock
-	DependencyGraphParser<String> stringDependencyGraphParser;
+	private DependencyGraphResolver dependencyGraphResolver = null;
 
-	// TODO: Replace with concrete implementation
-	@Mock
-	DependencyGraphResolver dependencyGraphResolver;
+	private StringDependencyResolverService service = new StringDependencyResolverService(stringDependencyGraphParser, dependencyGraphResolver);
 
+	@Disabled
 	@Test
 	void testKataExample() {
 		String dependencyGraph = "A B C\n" +
@@ -26,7 +25,6 @@ class StringDependencyResolverServiceIntegrationTest {
 				"E F\n" +
 				"F H";
 
-		StringDependencyResolverService service = new StringDependencyResolverService(stringDependencyGraphParser, dependencyGraphResolver);
 		DependencyGraph graph = service.parseAndResolveGraph(dependencyGraph);
 
 		assertThat(graph.dependenciesFor("A")).containsExactlyInAnyOrder("B", "C", "E", "F", "G", "H");
