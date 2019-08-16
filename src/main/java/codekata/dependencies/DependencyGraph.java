@@ -25,4 +25,9 @@ public class DependencyGraph {
 	public int hashCode() {
 		return Objects.hash(dependencyMap);
 	}
+
+	@Override
+	public String toString() {
+		return dependencyMap.toString();
+	}
 }
