@@ -8,6 +8,9 @@ public class StringDependencyGraphParser implements DependencyGraphParser<String
 		if (graph == null) {
 			throw new IllegalArgumentException("Graph cannot be null");
 		}
+		if (graph.isEmpty()) {
+			return new DependencyGraph(Collections.emptyMap());
+		}
 
 		Map<String, Set<String>> dependencyMap = new HashMap<>();
 

@@ -2,6 +2,7 @@ package codekata.dependencies;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,16 @@ class StringDependencyGraphParserTest {
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessage("Graph cannot be null");
 	}
+
+	@Test
+	void parsesEmptyString() {
+		DependencyGraph expected = new DependencyGraph(Collections.emptyMap());
+
+		DependencyGraph actual = parser.parse("");
+
+		assertThat(actual).isEqualTo(expected);
+	}
+
 
 	@Test
 	void parsesSingleLineGraphWithSingleDependency() {
