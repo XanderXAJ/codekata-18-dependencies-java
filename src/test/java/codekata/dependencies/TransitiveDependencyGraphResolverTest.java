@@ -45,4 +45,23 @@ class TransitiveDependencyGraphResolverTest {
 
 		assertThat(actual).isEqualTo(expected);
 	}
+
+	@Test
+	void resolvesOneStepOfTransitiveDependenciesMultipleTimes() {
+		Map<String, Set<String>> dependencyMap = new HashMap<>();
+		dependencyMap.put("A", Set.of("B", "D"));
+		dependencyMap.put("B", Set.of("C"));
+		dependencyMap.put("D", Set.of("E"));
+		DependencyGraph input = new DependencyGraph(dependencyMap);
+
+		DependencyGraph actual = resolver.resolve(input);
+
+		Map<String, Set<String>> expectedMap = new HashMap<>();
+		expectedMap.put("A", Set.of("B", "C", "D", "E"));
+		expectedMap.put("B", Set.of("C"));
+		expectedMap.put("D", Set.of("E"));
+		DependencyGraph expected = new DependencyGraph(expectedMap);
+
+		assertThat(actual).isEqualTo(expected);
+	}
 }
