@@ -44,4 +44,16 @@ class StringDependencyGraphParserTest {
 
 		assertThat(actual).isEqualTo(expected);
 	}
+
+	@Test
+	void parsesMultiLineGraphEachWithMultipleDependency() {
+		Map<String, Set<String>> expectedDependencyMap = new HashMap<>();
+		expectedDependencyMap.put("A", Set.of("B", "C"));
+		expectedDependencyMap.put("B", Set.of("C", "D"));
+		DependencyGraph expected = new DependencyGraph(expectedDependencyMap);
+
+		DependencyGraph actual = parser.parse("A B C\nB C D");
+
+		assertThat(actual).isEqualTo(expected);
+	}
 }
