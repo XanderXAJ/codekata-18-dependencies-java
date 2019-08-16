@@ -34,4 +34,26 @@ class DependencyGraphTest {
 
 		assertThat(graph1).isEqualTo(graph2);
 	}
+
+	@Test
+	void returnsAllDependents() {
+		Map<String, Set<String>> dependencyMap = new HashMap<>();
+		dependencyMap.put("A", Collections.emptySet());
+		dependencyMap.put("B", Collections.emptySet());
+		dependencyMap.put("C", Collections.emptySet());
+
+		DependencyGraph graph = new DependencyGraph(dependencyMap);
+
+		assertThat(graph.allDependents()).containsExactly("A", "B", "C");
+	}
+
+	@Test
+	void returnsNothingForNonDependent() {
+		Map<String, Set<String>> dependencyMap = new HashMap<>();
+		dependencyMap.put("A", Set.of("B"));
+
+		DependencyGraph graph = new DependencyGraph(dependencyMap);
+
+		assertThat(graph.dependenciesFor("B")).isEmpty();
+	}
 }

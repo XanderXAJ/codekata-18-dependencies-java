@@ -28,4 +28,21 @@ class TransitiveDependencyGraphResolverTest {
 
 		assertThat(resolver.resolve(graph)).isEqualTo(graph);
 	}
+
+	@Test
+	void resolvesOneStepOfTransitiveDependencies() {
+		Map<String, Set<String>> dependencyMap = new HashMap<>();
+		dependencyMap.put("A", Set.of("B"));
+		dependencyMap.put("B", Set.of("C"));
+		DependencyGraph input = new DependencyGraph(dependencyMap);
+
+		DependencyGraph actual = resolver.resolve(input);
+
+		Map<String, Set<String>> expectedMap = new HashMap<>();
+		expectedMap.put("A", Set.of("B", "C"));
+		expectedMap.put("B", Set.of("C"));
+		DependencyGraph expected = new DependencyGraph(expectedMap);
+
+		assertThat(actual).isEqualTo(expected);
+	}
 }
