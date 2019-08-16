@@ -7,11 +7,12 @@ public class StringDependencyGraphParser implements DependencyGraphParser<String
 	public DependencyGraph parse(String graph) {
 		Map<String, Set<String>> dependencyMap = new HashMap<>();
 
-		List<String> classes = List.of(graph.split(" "));
-		String dependent = head(classes);
-		Set<String> dependencies = Set.copyOf(tail(classes));
-
-		dependencyMap.put(dependent, dependencies);
+		for (String dependencyLine : graph.split("\n")) {
+			List<String> classes = List.of(dependencyLine.split(" "));
+			String dependent = head(classes);
+			Set<String> dependencies = Set.copyOf(tail(classes));
+			dependencyMap.put(dependent, dependencies);
+		}
 
 		return new DependencyGraph(dependencyMap);
 	}
