@@ -5,6 +5,10 @@ import java.util.*;
 public class StringDependencyGraphParser implements DependencyGraphParser<String> {
 	@Override
 	public DependencyGraph parse(String graph) {
+		if (graph == null) {
+			throw new IllegalArgumentException("Graph cannot be null");
+		}
+
 		Map<String, Set<String>> dependencyMap = new HashMap<>();
 
 		for (String dependencyLine : graph.split("\n")) {

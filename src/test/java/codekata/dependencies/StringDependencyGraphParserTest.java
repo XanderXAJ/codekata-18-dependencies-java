@@ -7,9 +7,17 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class StringDependencyGraphParserTest {
 	private StringDependencyGraphParser parser = new StringDependencyGraphParser();
+
+	@Test
+	void throwsExceptionWhenGivenNullString() {
+		assertThatThrownBy(() -> parser.parse(null))
+				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessage("Graph cannot be null");
+	}
 
 	@Test
 	void parsesSingleLineGraphWithSingleDependency() {
