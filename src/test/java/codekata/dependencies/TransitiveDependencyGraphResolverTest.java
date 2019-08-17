@@ -83,4 +83,23 @@ class TransitiveDependencyGraphResolverTest {
 
 		assertThat(actual).isEqualTo(expected);
 	}
+
+	@Test
+	void resolvesCircularDependencies() {
+		Map<String, Set<String>> inputMap = new HashMap<>();
+		inputMap.put("A", Set.of("B"));
+		inputMap.put("B", Set.of("C"));
+		inputMap.put("C", Set.of("A"));
+		DependencyGraph input = new DependencyGraph(inputMap);
+
+		DependencyGraph actual = resolver.resolve(input);
+
+		Map<String, Set<String>> expectedMap = new HashMap<>();
+		expectedMap.put("A", Set.of("B", "C"));
+		expectedMap.put("B", Set.of("C", "A"));
+		expectedMap.put("C", Set.of("A", "B"));
+		DependencyGraph expected = new DependencyGraph(expectedMap);
+
+		assertThat(actual).isEqualTo(expected);
+	}
 }

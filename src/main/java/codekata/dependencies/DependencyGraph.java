@@ -1,9 +1,6 @@
 package codekata.dependencies;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class DependencyGraph {
 	private Map<String, Set<String>> dependencyMap;
@@ -14,7 +11,7 @@ public class DependencyGraph {
 		Set<String> dependencies = Collections.emptySet();
 
 		if (dependencyMap.containsKey(dependent)) {
-			dependencies = dependencyMap.get(dependent);
+			dependencies = new HashSet<>(dependencyMap.get(dependent));
 		}
 
 		return dependencies;
@@ -29,7 +26,7 @@ public class DependencyGraph {
 	}
 
 	public Set<String> allDependents() {
-		return dependencyMap.keySet();
+		return new HashSet<>(dependencyMap.keySet());
 	}
 
 	@Override
