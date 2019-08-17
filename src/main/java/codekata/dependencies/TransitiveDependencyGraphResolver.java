@@ -17,11 +17,10 @@ public class TransitiveDependencyGraphResolver implements DependencyGraphResolve
 			while (!dependenciesToResolve.isEmpty()) {
 				String subDependent = dependenciesToResolve.poll();
 				Set<String> subDependencies = unresolvedGraph.dependenciesFor(subDependent);
+				subDependencies.removeAll(rootDependencies); // Remove all processed dependencies
 				subDependencies.remove(rootDependent); // A dependent can't be a dependency of itself in this model
 
-				Set<String> unseenDependencies = new HashSet<>(subDependencies);
-				unseenDependencies.removeAll(rootDependencies);
-				dependenciesToResolve.addAll(unseenDependencies);
+				dependenciesToResolve.addAll(subDependencies);
 
 				rootDependencies.addAll(subDependencies);
 			}
