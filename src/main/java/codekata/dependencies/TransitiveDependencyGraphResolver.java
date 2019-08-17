@@ -1,27 +1,31 @@
 package codekata.dependencies;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class TransitiveDependencyGraphResolver implements DependencyGraphResolver {
 	@Override
 	public DependencyGraph resolve(DependencyGraph unresolvedGraph) {
 		Map<String, Set<String>> resolvedDependencies = new HashMap<>();
 
-		for (String dependent : unresolvedGraph.allDependents()) {
-			Set<String> allDependencies = new HashSet<>();
+		for (String rootDependent : unresolvedGraph.allDependents()) {
+			Set<String> directDependencies = unresolvedGraph.dependenciesFor(rootDependent);
 
-			Set<String> directDependencies = unresolvedGraph.dependenciesFor(dependent);
-			allDependencies.addAll(directDependencies);
+			// Seed resolved dependencies and work queue with direct dependencies
+			Set<String> rootDependencies = new HashSet<>(directDependencies);
+			Queue<String> dependenciesToResolve = new LinkedList<>(directDependencies);
 
-			for (String directDependency : directDependencies) {
-				Set<String> indirectDependencies = unresolvedGraph.dependenciesFor(directDependency);
-				allDependencies.addAll(indirectDependencies);
+			while (!dependenciesToResolve.isEmpty()) {
+				String subDependent = dependenciesToResolve.poll();
+				Set<String> subDependencies = unresolvedGraph.dependenciesFor(subDependent);
+
+				Set<String> unseenDependencies = new HashSet<>(subDependencies);
+				unseenDependencies.removeAll(rootDependencies);
+				dependenciesToResolve.addAll(unseenDependencies);
+
+				rootDependencies.addAll(subDependencies);
 			}
 
-			resolvedDependencies.put(dependent, allDependencies);
+			resolvedDependencies.put(rootDependent, rootDependencies);
 		}
 
 		return new DependencyGraph(resolvedDependencies);

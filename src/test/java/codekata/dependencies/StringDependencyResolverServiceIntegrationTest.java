@@ -10,12 +10,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class StringDependencyResolverServiceIntegrationTest {
 	private DependencyGraphParser<String> stringDependencyGraphParser = new StringDependencyGraphParser();
-	// TODO: Replace with concrete implementation
-	private DependencyGraphResolver dependencyGraphResolver = null;
+	private DependencyGraphResolver dependencyGraphResolver = new TransitiveDependencyGraphResolver();
 
 	private StringDependencyResolverService service = new StringDependencyResolverService(stringDependencyGraphParser, dependencyGraphResolver);
 
-	@Disabled
 	@Test
 	void testKataExample() {
 		String dependencyGraph = "A B C\n" +
